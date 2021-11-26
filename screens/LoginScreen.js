@@ -1,8 +1,10 @@
 import React from 'react'
+import { useNavigation } from '@react-navigation/core'
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
-import { useState } from 'react'
+import { useState, useEffect} from 'react'
 import { auth } from '../firebase'
+import { NavigationContainer } from '@react-navigation/native'
 
 
 const LoginScreen = () => {
@@ -10,15 +12,40 @@ const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const navigation=useNavigation()
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user=>{
+            if(user){
+                //navigation.navigate("Home")
+                navigation.replace("Home")
+            }
+        })
+
+        return unsubscribe
+    }, [])
+
+
     const handleSignUp = () =>{
         auth
             .createUserWithEmailAndPassword(email,password)
             .then(userCredentails => {
                 const user=userCredentails.user;
-                console.log(user.email);
+                console.log('Registered with: ',user.email);
             })
             .catch(error=>alert(error.message))
     }
+
+    const handleLogin = () =>{
+        auth
+            .signInWithEmailAndPassword(email,password)
+            .then(userCredentails => {
+                const user=userCredentails.user;
+                console.log('Login with: ',user.email);
+            })
+            .catch(error=>alert(error.message))
+    }
+
 
     return (
         <KeyboardAvoidingView
@@ -35,7 +62,7 @@ const LoginScreen = () => {
                 <TextInput
                     placeholder="Password"
                     value={password}
-                    onChangeText={text => setPassword(password) }
+                    onChangeText={text => setPassword(text) }
                     style={styles.input}
                     secureTextEntry //Yıldız ile kapatır girilen şifreyi
                 />      
@@ -43,7 +70,7 @@ const LoginScreen = () => {
 
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                    onPress={()=>{}}
+                    onPress={handleLogin}
                     style={styles.button}
                 >
                     <Text style={styles.buttonText}>Login</Text>
