@@ -15,12 +15,12 @@ import 'firebase/compat/auth'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCHuFdKpyZH2uqItv4EkAZcUEOlYln8UpI",
-  authDomain: "mobilprojeauth.firebaseapp.com",
-  projectId: "mobilprojeauth",
-  storageBucket: "mobilprojeauth.appspot.com",
-  messagingSenderId: "232408261521",
-  appId: "1:232408261521:web:53101281c969101c783030"
+  apiKey: "AIzaSyAoNowH07Y5MahMVa7GGQo19icY00s6fNs",
+  authDomain: "finansalproje.firebaseapp.com",
+  projectId: "finansalproje",
+  storageBucket: "finansalproje.appspot.com",
+  messagingSenderId: "908967575525",
+  appId: "1:908967575525:web:95ddded2e934ad587b390c"
 };
 
 // Initialize Firebase
