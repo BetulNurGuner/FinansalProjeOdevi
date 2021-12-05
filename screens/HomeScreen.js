@@ -4,9 +4,10 @@ import { StyleSheet, Text, View, SafeAreaView, StatusBar, Image, Modal, Animated
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { auth } from '../firebase'
 
-
+import Headlines from './Headlines'
 
 const HomeScreen = () => {
+
     const navigation = useNavigation()
   
     const handleSignOut = () => {
@@ -20,6 +21,7 @@ const HomeScreen = () => {
   
     return (
       <View style={styles.container}>
+        <Headlines/> //Başlıklar sayfasından veri alırken. Farklı sayfa içeriğini gösterme!!
         <Text>Email: {auth.currentUser?.email}</Text>
         <TouchableOpacity
           onPress={handleSignOut}
