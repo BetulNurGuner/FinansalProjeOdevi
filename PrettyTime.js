@@ -25,7 +25,7 @@ var prettyTime = function (time) {
    
   var templates = {
     prefix: "",
-    suffix: "önce",
+    suffix: " önce" ,
     seconds: "saniyeler",
     minute: "1 dakika",
     minutes: "%d dakika",
