@@ -1,17 +1,20 @@
 import React, { useState, useEffect} from 'react';
-import { View, SafeAreaView, Text , FlatList, Image, TouchableHighlight  } from 'react-native';
+import { View, SafeAreaView, Text , FlatList, Image, TouchableHighlight, StatusBar  } from 'react-native';
 import prettyTime from './PrettyTime';
+
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
  
-const Headlines = () => {
+const Headlines = ({ navigation }) => {
+  
   const [headlines, setHeadlines] = useState({});
- 
+  
+  const query = navigation.state.params && navigation.state.params.category;
   const category = 'technology';
   const country = 'tr';
-  //const API_KEY = "d9ee2b1c36644ef78c4410a48fc6a82c";
-  const url = 'https://newsapi.org/v2/everything?q=${category}&apiKey=d9ee2b1c36644ef78c4410a48fc6a82c';
- 
+  const API_KEY = 'ce90cc126ec74bda89692dbd0b1c88bf';
+  const url = `https://newsapi.org/v2/everything?language=${country}&q=${query}&apiKey=${API_KEY}`;
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -21,19 +24,14 @@ const Headlines = () => {
       .json()
       .then(res => setHeadlines(res))
   }
-  function removeSource(title){
-    if(title == null || title.indexOf(' - ') < 0) return title;
-    var parts = title.split(' - ');
-    parts.pop();
-    return parts.join(' - ');
-  }
+ 
   function renderItem({ item }) {
     return (
-      <TouchableHighlight onPress={() => { alert(item.title) }}>
+      <TouchableHighlight onPress={() => { navigation.navigate('NewsWebView', { url: item.url, title: item.title })}}>
         <View style={{ flex: 1, flexDirection: 'row', padding: 10, borderBottom: 1, borderBottomWidth: 1, borderBottomColor: '#eee' }}>
           <Image style={{ width: 100, height: 100 }} source={{ uri: item.urlToImage }} />
           <View style={{ flex: 1, paddingLeft: 10 }}>
-            <Text style={{ flexWrap: 'wrap' }}>{removeSource(item.title)}</Text>
+            <Text style={{ flexWrap: 'wrap' }}>{item.title}</Text>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Icon name="newspaper" size={15} style={{ paddingRight: 5 }} />
@@ -50,14 +48,19 @@ const Headlines = () => {
   }
  
   return (
-    <SafeAreaView>
-      <FlatList
-        data={headlines.articles}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.title}
-      />
-    </SafeAreaView>
+    <FlatList
+    data={headlines && headlines.articles}
+    renderItem={renderItem}
+    keyExtractor={(item) => item.title} />
   );
+
+
 };
+
+Headlines.navigationOptions = ({ navigation }) => ({
+  title: `${navigation.state.params && navigation.state.params.category} Haberleri`
+});
+ 
+//StatusBar.setBarStyle('light-content', true);
  
 export default Headlines;
