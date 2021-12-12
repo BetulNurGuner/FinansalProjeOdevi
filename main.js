@@ -5,6 +5,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import App from './App';
 import Headlines from './Headlines';
 import NewsWebView from './NewsWebView';
+import LoginScreen from './LoginScreen';
 import {name as appName} from './app.json';
 
 const navigationConfig = {
@@ -24,7 +25,8 @@ const navigationConfig = {
 StatusBar.setBarStyle('light-content', true);
  
 const MainNavigator = createStackNavigator({
-    Home: { screen: App },
+    Home: { screen: LoginScreen },
+    App: {screen: App},
     Headlines: { screen: Headlines },
     NewsWebView: { screen: NewsWebView },
   },navigationConfig);

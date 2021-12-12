@@ -12,7 +12,7 @@ const Headlines = ({ navigation }) => {
   const query = navigation.state.params && navigation.state.params.category;
   const category = 'technology';
   const country = 'tr';
-  const API_KEY = 'ce90cc126ec74bda89692dbd0b1c88bf';
+  const API_KEY = 'd9ee2b1c36644ef78c4410a48fc6a82c';
   const url = `https://newsapi.org/v2/everything?language=${country}&q=${query}&apiKey=${API_KEY}`;
 
   useEffect(() => {

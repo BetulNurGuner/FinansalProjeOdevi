@@ -1,7 +1,22 @@
 import React from 'react';
-import { Text, FlatList, ImageBackground, Dimensions, TouchableHighlight, Platform, StatusBar } from 'react-native';
- 
+import { Text,StyleSheet,Button,View, FlatList, ImageBackground, Dimensions, TouchableHighlight,TouchableOpacity, Platform, StatusBar } from 'react-native';
+ import { auth } from './firebase';
+ import { useNavigation } from '@react-navigation/core';
+import { render } from 'react-dom';
+
+
 const App = ({ navigation }) => {
+
+  const handleSignOut=()=>{
+    auth
+      .signOut()
+      .then(()=>{
+        navigation.replace("Login")
+      })
+      .catch(error=>alert(error.message))
+  }
+
+
   const numColumns = 3;
   const tileWidth = Dimensions.get('window').width / numColumns;
   const imageBaseUrl = "https://images.unsplash.com/photo-";
@@ -25,6 +40,7 @@ const App = ({ navigation }) => {
  
   const renderItem = ({ item }) => {
     return (
+      
       <TouchableHighlight onPress={() => navigation.navigate('Headlines', { category: item.category })}>
         <ImageBackground source={{ uri: imageBaseUrl + item.imageId + imageParameters }}
           style={{
@@ -38,17 +54,48 @@ const App = ({ navigation }) => {
             fontSize: 15
           }}>{item.category}</Text>
         </ImageBackground>
+
       </TouchableHighlight>
+      
+      
+      
+      
+      /*
+      <Button
+      onPress={handleSignOut}
+      style={styles.button}
+      accessibilityLabel="ÇIKIŞ"
+      />
+      */
+      /*
+<TouchableOpacity
+      onPress={handleSignOut}
+      style={styles.button}
+      >
+      <Text style={styles.buttonText}>ÇIKIŞ</Text>
+    </TouchableOpacity>
+      */
+      
     );
+
+          
   }
+
+
+  
   return (
     <FlatList
       data={dataSource}
       renderItem={renderItem}
       keyExtractor={(item) => item.category}
       numColumns={numColumns}
+
+      
     />
+    
+    
   );
+
 };
 App.navigationOptions = ({ navigation }) => ({
   title: 'Haber Kategorileri',
@@ -59,8 +106,27 @@ App.navigationOptions = ({ navigation }) => ({
   headerTitleStyle: {
     fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto',
   },
+
+
 });
  
 StatusBar.setBarStyle('light-content', true);
  
 export default App;
+
+const styles= StyleSheet.create({
+  button:{
+    backgroundColor: '#0782F9',
+    width: '60%',
+    padding:15,
+    borderRadius:10,
+    alignItems: 'flex-end',
+    marginTop:40,
+
+},
+buttonText:{
+    color: 'white',
+    fontWeight: '700',
+    fontSize:16,
+},
+})

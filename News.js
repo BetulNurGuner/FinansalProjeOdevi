@@ -3,10 +3,8 @@ import { SafeAreaView, View, FlatList,Text,Linking } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { WebView } from 'react-native-webview';
 
-const NewsWebView = ({ navigation }) => {
+const News = ({ navigation }) => {
     const url = navigation.state.params && navigation.state.params.url;
-
-    
 
 };
 
